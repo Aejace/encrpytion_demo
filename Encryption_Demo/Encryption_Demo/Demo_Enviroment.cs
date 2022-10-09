@@ -1,22 +1,24 @@
 ﻿using Encryption_Demo;
+using System.Runtime.CompilerServices;
 
 internal class Demo_Enviroment
 {
     private List<User> users = new List<User>();
-    private User currentUser;
+    private User currentUser = new User("Default User");
     private List<Message> messagesHub = new List<Message>();
 
     private static void Main(string[] args)
     {
         Console.WriteLine("Welcome! This program demonstrates some uses of symetric and asymetric encryption.");
 
-        MainMenu();
+        Demo_Enviroment enviroment = new Demo_Enviroment();
+        enviroment.MainMenu();
 
         Console.WriteLine("");
         Console.WriteLine("Thanks for exploring this demo!");
     }
 
-    public static string GetUserInput()
+    public string GetUserInput()
     {
         var userInput = Console.ReadLine();
         while (userInput == null)
@@ -27,7 +29,7 @@ internal class Demo_Enviroment
         return userInput;
     }
 
-    private static void MainMenu()
+    private void MainMenu()
     {
         string userInput = "";
 
@@ -45,7 +47,7 @@ internal class Demo_Enviroment
             switch (userInput)
             {
                 case "A":
-
+                    CreateUserMenu();
                     break;
 
                 case "B":
@@ -62,37 +64,72 @@ internal class Demo_Enviroment
         } 
     }
 
-    private static void UserSelectionMenu()
+    private void CreateUserMenu()
+    {
+        string name = "";
+        Console.WriteLine("");
+        Console.WriteLine("Please enter the name of the user you'd like to add: ");
+        name = GetUserInput();
+        User newUser = new User(name);
+        users.Add(newUser); 
+    }
+
+
+    private void UserSelectionMenu()
     {
         string userInput = "";
 
-        while (userInput != "QUIT")
+        while (userInput != "BACK")
         {
             Console.WriteLine("");
-            Console.WriteLine("Please select an option below:");
-            //if ()
 
-            Console.WriteLine("Back: Go back to main menu");
-
-            userInput = GetUserInput();
-            userInput = userInput.ToUpper();
-
-            switch (userInput)
+            if (users.Count > 0)
             {
-                case "A":
+                Console.WriteLine("Please select an option below:");
+                for (int i = 0; i < users.Count; i++)
+                {
+                    string name = users[i].Name;
+                    Console.WriteLine(i + ": " + name);
+                }
 
-                    break;
+                Console.WriteLine("Back: Go back to main menu");
+            }
+            else
+            {
+                Console.WriteLine("There are no users to select, please add a user before login into one.");
+                userInput = "BACK";
+                break;
+            }
+            
+            userInput = GetUserInput();
 
-                case "B":
-                    
-                    break;
+            if (int.TryParse(userInput, out int index))
+            {
+                currentUser = users[index];
+                Console.WriteLine("");
+                Console.WriteLine("Logged into: " + currentUser.Name);
+            }
+            else
+            {
+                userInput = userInput.ToUpper();
 
-                case "QUIT":
-                    break;
+                switch (userInput)
+                {
+                    case "A":
 
-                default:
-                    Console.WriteLine("Command not recognized.");
-                    break;
+                        break;
+
+                    case "B":
+
+                        break;
+
+                    case "BACK":
+                        break;
+
+                    default:
+                        Console.WriteLine("Command not recognized.");
+                        break;
+                }
             }
         }
     }
