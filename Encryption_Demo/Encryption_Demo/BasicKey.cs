@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Encryption_Demo
+﻿namespace Encryption_Demo
 {
     internal class BasicKey : IKey
     {
-        private string cipherAddition = " (This is a modification to the message to show it is 'encrpyted')";
+        private readonly string _cipherAddition = " (This is a modification to the message to show it is 'encrpyted')";
 
         public BasicKey()
         {
@@ -17,17 +11,17 @@ namespace Encryption_Demo
 
         public BasicKey(string cipherAddition)
         {
-            this.cipherAddition = cipherAddition;
+            this._cipherAddition = cipherAddition;
         }
 
-        public void Encrpyt(Message messageToEncrypt)
+        public void Encrypt(Message messageToEncrypt)
         {
-            messageToEncrypt.message += cipherAddition;
+            messageToEncrypt.Content += _cipherAddition;
         }
 
         public void Decrypt(Message messageToDecrypt)
         {
-            messageToDecrypt.message = messageToDecrypt.message.Substring(0, messageToDecrypt.message.Length - cipherAddition.Length);
+            messageToDecrypt.Content = messageToDecrypt.Content.Substring(0, messageToDecrypt.Content.Length - _cipherAddition.Length);
         }
     }
 }

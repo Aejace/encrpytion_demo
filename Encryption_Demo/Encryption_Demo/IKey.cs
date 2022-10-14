@@ -3,6 +3,6 @@
     internal interface IKey
     {
         void Decrypt(Message messageToDecrypt);
-        void Encrpyt(Message messageToEncrypt);
+        void Encrypt(Message messageToEncrypt);
     }
 }

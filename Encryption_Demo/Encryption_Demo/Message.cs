@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Encryption_Demo
+﻿namespace Encryption_Demo
 {
     internal class Message
     {
-        public string message { get; set; }
-        public string subject { get; set; }
+        public string Content { get; set; }
+        public string Subject { get; set; }
+        public List<string> RecipientsList { get; }
 
-        public Message(string subject, string message)
+        public Message(string subject, string message, List<string> recipientsList)
         {
-            this.subject = subject;
-            this.message = message;
+            this.Subject = subject;
+            this.Content = message;
+            this.RecipientsList = recipientsList;
         }
     }
 }
