@@ -28,7 +28,7 @@
                     break;
 
                 case "B":
-                    UserSelectionMenu userSelection = new UserSelectionMenu(Environment);
+                    UserLogInMenu userSelection = new UserLogInMenu(Environment);
                     userSelection.Run();
                     break;
 

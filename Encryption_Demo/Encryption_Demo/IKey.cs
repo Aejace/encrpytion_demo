@@ -2,7 +2,7 @@
 {
     internal interface IKey
     {
-        void Decrypt(Message messageToDecrypt);
-        void Encrypt(Message messageToEncrypt);
+        Message Decrypt(Message messageToDecrypt);
+        Message Encrypt(Message messageToEncrypt);
     }
 }

@@ -17,9 +17,11 @@ namespace Encryption_Demo.Menu
             Console.WriteLine("");
             Console.WriteLine("Please select an option below:");
             Console.WriteLine("A: Generate keys");
+            Console.WriteLine("B: Share keys");
             Console.WriteLine("B: Write a message");
             Console.WriteLine("C: Encrypt a message");
-            Console.WriteLine("D: Decrypt a message");
+            Console.WriteLine("D: Send a message");
+            Console.WriteLine("E: Decrypt a message");
             Console.WriteLine("Back: Go to main menu");
         }
 
