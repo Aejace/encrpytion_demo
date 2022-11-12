@@ -4,7 +4,7 @@
     {
         public string Content { get; set; }
         public string Subject { get; set; }
-        public List<string> RecipientsList { get; }
+        public List<string> RecipientsList { get; set; }
 
         public Message()
         {

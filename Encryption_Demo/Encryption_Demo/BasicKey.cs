@@ -1,29 +1,31 @@
 ﻿namespace Encryption_Demo
 {
-    internal class BasicKey : IKey
+    internal class BasicKey : Key
     {
-        private readonly string _cipherAddition = " (This is a modification to the message to show it is 'encrypted')";
+        private readonly string cipherAddition = " (This is a modification to the message to show it is 'encrypted')";
+        
 
         public BasicKey()
         {
-
+            this.Name = "Default name";
         }
 
-        public BasicKey(string cipherAddition)
+        public BasicKey(string name, string cipherAddition)
         {
-            this._cipherAddition = cipherAddition;
+            this.cipherAddition = cipherAddition;
+            this.Name = name;
         }
 
-        public Message Encrypt(Message messageToEncrypt)
+        public override Message Encrypt(Message messageToEncrypt)
         {
-            string encryptedContent = messageToEncrypt.Content + _cipherAddition;
+            string encryptedContent = messageToEncrypt.Content + cipherAddition;
             Message encryptedMessage = new Message(messageToEncrypt.Subject, encryptedContent, messageToEncrypt.RecipientsList);
             return encryptedMessage;
         }
 
-        public Message Decrypt(Message messageToDecrypt)
+        public override Message Decrypt(Message messageToDecrypt)
         {
-            string decryptedContent =  messageToDecrypt.Content.Substring(0, messageToDecrypt.Content.Length - _cipherAddition.Length);
+            string decryptedContent =  messageToDecrypt.Content.Substring(0, messageToDecrypt.Content.Length - cipherAddition.Length);
             Message decryptedMessage = new Message(messageToDecrypt.Subject, decryptedContent, messageToDecrypt.RecipientsList);
             return decryptedMessage;
         }

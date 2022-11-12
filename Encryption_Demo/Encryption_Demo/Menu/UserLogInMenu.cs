@@ -8,43 +8,28 @@ namespace Encryption_Demo.Menu
 {
     internal class UserLogInMenu : Menu
     {
-        private readonly List<string> _userNames;
-        private string _userInput;
+        private readonly List<string> userNames;
 
         public UserLogInMenu(DemoEnvironment environment) : base(environment)
         {
-            this._userNames = new List<string>(Environment.Users.Keys);
-            this._userInput = "";
+            this.userNames = new List<string>(Environment.Users.Keys);
         }
 
-        public new void Run()
-        {
-            while (_userInput != "BACK")
-            {
-                PrintMenu();
-
-                _userInput = GetUserInput();
-
-                Cases(_userInput);
-            }
-        }
 
         protected override void PrintMenu()
         {
             Console.WriteLine("");
 
-            if (_userNames.Count <= 0)
+            if (userNames.Count <= 0)
             {
                 Console.WriteLine("There are no users to select, please add a user before login into one.");
-                _userInput = "BACK";
-                return;
             }
 
             Console.WriteLine("Please select an option below:");
 
-            for (int i = 0; i < _userNames.Count; i++)
+            for (int i = 0; i < userNames.Count; i++)
             {
-                string name = _userNames[i];
+                string name = userNames[i];
                 Console.WriteLine(i + ": " + name);
             }
 
@@ -53,12 +38,13 @@ namespace Encryption_Demo.Menu
 
         protected override void Cases(string userInput)
         {
+            if (userInput == "BACK") return;
+
             if (int.TryParse(userInput, out int index))
             {
-                if (index >= 0 && index < _userNames.Count)
+                if (index >= 0 && index < userNames.Count)
                 {
-                    Environment.CurrentUser = Environment.Users[_userNames[index]];
-                    Console.WriteLine("");
+                    Environment.CurrentUser = Environment.Users[userNames[index]];
                     Console.WriteLine("Logged into: " + Environment.CurrentUser.Name);
                 }
                 else
@@ -68,9 +54,6 @@ namespace Encryption_Demo.Menu
             }
             else
             {
-                userInput = userInput.ToUpper();
-
-                if (userInput == "BACK") return;
                 Console.WriteLine("Command not recognized.");
             }
         }

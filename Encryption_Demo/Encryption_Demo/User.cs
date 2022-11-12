@@ -3,11 +3,12 @@
     internal class User
     {
         public string Name { get; }
-        public List<IKey> Keys = new List<IKey>();
+        public List<Key> Keys = new List<Key>();
+        public Key CurrentKey = new BasicKey();
         public List<Message> Inbox = new List<Message>();
         public List<Message> InterceptedMessages = new List<Message>();
         public List<Message> DecryptedInbox = new List<Message>();
-        public Message stillComposing = new Message();
+        public Message PartialMessage = new Message();
         public List<Message> Drafts = new List<Message>();
         public List<Message> EncryptedDrafts = new List<Message>();
         public List<Message> Sent = new List<Message>();
@@ -17,28 +18,47 @@
             Name = name;
         }
 
-        public void CreateBasicKey(string seed)
+        public void CreateBasicKey(string name, string seed)
         {
-            BasicKey key = new BasicKey(seed);
+            BasicKey key = new BasicKey(name, seed);
             Keys.Add(key);
         }
 
-        public void CreateNewMessage(string subject, string content, List<string> recipientsList)
+        public void SetCurrentKey(Key key)
         {
-            Message message = new Message(subject, content, recipientsList);
-            Drafts.Add(message);
+            CurrentKey = key;
         }
 
-        public void EncryptMessage(Message message, IKey key)
+        public void AddToDrafts()
         {
-            Message encryptedMessage = key.Encrypt(message);
+            Drafts.Add(PartialMessage);
+            PartialMessage = new Message();
+        }
+
+        public void EncryptMessage(Message message)
+        {
+            Message encryptedMessage = CurrentKey.Encrypt(message);
             EncryptedDrafts.Add(encryptedMessage);
         }
 
-        public Message SendMessage(Message message)
+        public void EncryptMessageTo(Message message, List<string> usernames)
+        {
+            Message encryptedMessage = CurrentKey.Encrypt(message);
+            List<string> verifiedNames = new List<string>();
+            foreach (string name in usernames)
+            {
+                if (encryptedMessage.RecipientsList.Contains(name))
+                {
+                    verifiedNames.Add(name);
+                }
+            }
+            encryptedMessage.RecipientsList = verifiedNames;
+            EncryptedDrafts.Add(encryptedMessage);
+        }
+
+        public void SendMessage(Message message)
         {
             Sent.Add(message);
-            return message;
         }
 
         public void RefreshInbox(List<Message> messages)
@@ -51,9 +71,9 @@
             InterceptedMessages.Add(message);
         }
 
-        public void DecryptMessage(Message message, IKey key)
+        public void DecryptMessage(Message message)
         {
-            Message decryptedMessage = key.Decrypt(message);
+            Message decryptedMessage = CurrentKey.Decrypt(message);
             DecryptedInbox.Add(decryptedMessage);
         }
     }

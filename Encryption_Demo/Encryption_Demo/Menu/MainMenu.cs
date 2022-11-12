@@ -9,12 +9,17 @@
         protected override void PrintMenu()
         {
             Console.WriteLine("");
+            Console.WriteLine("Main menu");
             Console.WriteLine("Please select an option below:");
             Console.WriteLine("A: Add a user to the environment");
             Console.WriteLine("B: Log in to a user");
             Console.WriteLine(Environment.CurrentUser.Name != Environment.DefaultName
-                ? "C: Go to User menu"
+                ? "C: Go to User menu (" + Environment.CurrentUser.Name + ")"
                 : "C: Go to User menu (unavailable until logged in)");
+            if (Environment.Users.Count == 0)
+            {
+                Console.WriteLine("D: Demo");
+            }
             Console.WriteLine("Back: Exit the program");
         }
 
@@ -42,6 +47,16 @@
                     {
                         Console.WriteLine("Please log in to continue");
                     }
+                    break;
+
+                case "D" when Environment.Users.Count == 0:
+                    User p1 = new User("P1");
+                    Environment.Users.Add("P1", p1);
+                    User p2 = new User("P2");
+                    Environment.Users.Add("P2", p2);
+                    User p3 = new User("P3");
+                    Environment.Users.Add("P3", p3);
+                    Environment.CurrentUser = p1;
                     break;
 
                 case "BACK":
