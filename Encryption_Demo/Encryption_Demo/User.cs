@@ -4,7 +4,7 @@
     {
         public string Name { get; }
         public List<Key> Keys = new List<Key>();
-        public Key CurrentKey = new BasicKey();
+        public Key CurrentKey;
         public List<Message> Inbox = new List<Message>();
         public List<Message> InterceptedMessages = new List<Message>();
         public List<Message> DecryptedInbox = new List<Message>();
@@ -83,6 +83,9 @@
             this.DecryptedInbox.Add(decryptedMessage);
         }
 
-        
+        internal void AddKey(Key key)
+        {
+            this.Keys.Add(key);
+        }
     }
 }

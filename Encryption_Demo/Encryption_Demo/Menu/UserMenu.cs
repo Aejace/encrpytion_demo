@@ -32,11 +32,13 @@ namespace Encryption_Demo.Menu
             switch (userInput)
             {
                 case "A":
-
+                    GenerateKeyMenu generateKey = new GenerateKeyMenu(Environment);
+                    generateKey.Run();
                     break;
 
                 case "B":
-
+                    ShareKeyMenu shareKey = new ShareKeyMenu(Environment);
+                    shareKey.Run();
                     break;
 
                 case "C":
@@ -63,7 +65,7 @@ namespace Encryption_Demo.Menu
                     Console.WriteLine("Message complete. Added to drafts");
                     break;
 
-                case "D":
+                case "D" when Environment.CurrentUser.Keys.Count > 0:
                     EncryptMessageMenu encryptMessage = new EncryptMessageMenu(Environment);
                     encryptMessage.Run();
                     break;

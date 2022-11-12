@@ -18,7 +18,7 @@ namespace Encryption_Demo.Menu
             Console.WriteLine("Key generation menu");
             Console.WriteLine("Please select an option below:");
             Console.WriteLine("A: Basic Key");
-            Console.WriteLine("B: One Time Pad XOR Key");
+            Console.WriteLine("B: XOR symmetric Key");
             Console.WriteLine("C: RSA Keys");
             Console.WriteLine("Back: Go back to previous menu");
         }
@@ -38,10 +38,10 @@ namespace Encryption_Demo.Menu
                     break;
 
                 case "B":
-                    Console.WriteLine("");
-                    Console.WriteLine("Please enter a key name");
-                    name = GetName();
-                    // Environment.CurrentUser.CreateRSAKey(name, );
+                    //Console.WriteLine("");
+                    //Console.WriteLine("Please enter a key name");
+                    //name = GetName();
+                    //Environment.CurrentUser.CreateRSAKey(name, );
                     break;
 
                 case "C":
@@ -49,6 +49,7 @@ namespace Encryption_Demo.Menu
                     Console.WriteLine("Please enter a key name");
                     name = GetName();
                     Environment.CurrentUser.CreateXORKey(name);
+                    Console.WriteLine("Key added!");
                     break;
 
                 case "BACK":

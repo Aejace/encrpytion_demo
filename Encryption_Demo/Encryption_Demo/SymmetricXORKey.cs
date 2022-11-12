@@ -14,7 +14,7 @@ namespace Encryption_Demo
         {
             this.Name = name;
             Random random = new Random();
-            byte[] ByteKey = new byte[2147483647];
+            byte[] ByteKey = new byte[65536];
             random.NextBytes(ByteKey);
             key = new BigInteger(ByteKey);
         }

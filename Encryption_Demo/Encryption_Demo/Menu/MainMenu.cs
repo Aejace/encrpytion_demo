@@ -62,6 +62,8 @@
                     Message message = new Message("Hello", "Testing", userNames);
                     Environment.CurrentUser.PartialMessage = message;
                     Environment.CurrentUser.AddToDrafts();
+                    Environment.CurrentUser.CreateXORKey("P1 Private");
+                    Environment.CurrentUser.SetCurrentKey(Environment.CurrentUser.Keys[0]);
                     Environment.CurrentUser.EncryptMessage(message);
                     Message encryptedMessage = Environment.CurrentUser.EncryptedDrafts[0];
                     Environment.CurrentUser.SendMessage(message);
