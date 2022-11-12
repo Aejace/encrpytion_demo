@@ -56,7 +56,18 @@
                     Environment.Users.Add("P2", p2);
                     User p3 = new User("P3");
                     Environment.Users.Add("P3", p3);
-                    Environment.CurrentUser = p1;
+                    Environment.CurrentUser = Environment.Users["P1"];
+
+                    List<string> userNames = new List<string>() {"P1", "P2", "P3"};
+                    Message message = new Message("Hello", "Testing", userNames);
+                    Environment.CurrentUser.PartialMessage = message;
+                    Environment.CurrentUser.AddToDrafts();
+                    Environment.CurrentUser.EncryptMessage(message);
+                    Message encryptedMessage = Environment.CurrentUser.EncryptedDrafts[0];
+                    Environment.CurrentUser.SendMessage(message);
+                    Environment.MessagesHub.SendMessage(message);
+                    Environment.CurrentUser.SendMessage(encryptedMessage);
+                    Environment.MessagesHub.SendMessage(encryptedMessage);
                     break;
 
                 case "BACK":

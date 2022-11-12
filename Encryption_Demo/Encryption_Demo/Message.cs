@@ -22,7 +22,7 @@
 
         public string PrintMessage()
         {
-            string recipients = RecipientsList.Aggregate("", (current, recipient) => current + recipient);
+            string recipients = RecipientsList.Aggregate("", (current, recipient) => current + " " + recipient + ",");
             return "TO:" + recipients + "\n" + "SUBJECT: " + this.Subject + "\n" + "BODY: " + this.Content;
         }
     }

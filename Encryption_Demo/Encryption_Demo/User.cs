@@ -21,24 +21,30 @@
         public void CreateBasicKey(string name, string seed)
         {
             BasicKey key = new BasicKey(name, seed);
-            Keys.Add(key);
+            this.Keys.Add(key);
+        }
+
+        internal void CreateXORKey(string name)
+        {
+            SymmetricXORKey key = new SymmetricXORKey(name);
+            this.Keys.Add(key);
         }
 
         public void SetCurrentKey(Key key)
         {
-            CurrentKey = key;
+            this.CurrentKey = key;
         }
 
         public void AddToDrafts()
         {
-            Drafts.Add(PartialMessage);
-            PartialMessage = new Message();
+            this.Drafts.Add(PartialMessage);
+            this.PartialMessage = new Message();
         }
 
         public void EncryptMessage(Message message)
         {
             Message encryptedMessage = CurrentKey.Encrypt(message);
-            EncryptedDrafts.Add(encryptedMessage);
+            this.EncryptedDrafts.Add(encryptedMessage);
         }
 
         public void EncryptMessageTo(Message message, List<string> usernames)
@@ -53,28 +59,30 @@
                 }
             }
             encryptedMessage.RecipientsList = verifiedNames;
-            EncryptedDrafts.Add(encryptedMessage);
+            this.EncryptedDrafts.Add(encryptedMessage);
         }
 
         public void SendMessage(Message message)
         {
-            Sent.Add(message);
+            this.Sent.Add(message);
         }
 
         public void RefreshInbox(List<Message> messages)
         {
-            Inbox = messages;
+            this.Inbox = messages;
         }
 
         public void InterceptMessage(Message message)
         {
-            InterceptedMessages.Add(message);
+            this.InterceptedMessages.Add(message);
         }
 
         public void DecryptMessage(Message message)
         {
             Message decryptedMessage = CurrentKey.Decrypt(message);
-            DecryptedInbox.Add(decryptedMessage);
+            this.DecryptedInbox.Add(decryptedMessage);
         }
+
+        
     }
 }

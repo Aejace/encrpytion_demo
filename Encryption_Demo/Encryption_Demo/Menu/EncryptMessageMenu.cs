@@ -83,16 +83,17 @@ namespace Encryption_Demo.Menu
                 {
                     case "BACK":
                         return;
+
                     case "ACCEPT" when selectedMessages.Count > 0:
+                        KeySelectionMenu selectKey = new KeySelectionMenu(Environment);
+                        selectKey.Run();
                         foreach (Message message in selectedMessages)
                         {
-                            KeySelectionMenu selectKey = new KeySelectionMenu(Environment);
-                            selectKey.Run();
                             Environment.CurrentUser.EncryptMessage(message);
                         }
                         Console.WriteLine("Message(s) encrypted! Added to encrypted drafts.");
-
                         return;
+
                     default:
                         Console.WriteLine("Command not recognized.");
                         break;

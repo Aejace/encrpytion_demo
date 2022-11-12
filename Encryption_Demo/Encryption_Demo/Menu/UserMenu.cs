@@ -21,8 +21,9 @@ namespace Encryption_Demo.Menu
             Console.WriteLine("C: Write a message");
             Console.WriteLine("D: Encrypt a message");
             Console.WriteLine("E: Send a message");
-            Console.WriteLine("F: Decrypt a message");
-            Console.WriteLine("G: Read messages");
+            Console.WriteLine("F: Intercept a message");
+            Console.WriteLine("G: Decrypt a message");
+            Console.WriteLine("H: Read messages");
             Console.WriteLine("Back: Go to main menu");
         }
 
@@ -77,7 +78,13 @@ namespace Encryption_Demo.Menu
                     break;
 
                 case "G":
+                    DecryptMessageMenu decryptMessage = new DecryptMessageMenu(Environment);
+                    decryptMessage.Run();
+                    break;
 
+                case "H":
+                    MessageFolderSelectionMenu folderSelect = new MessageFolderSelectionMenu(Environment);
+                    folderSelect.Run();
                     break;
 
                 case "QUIT":
