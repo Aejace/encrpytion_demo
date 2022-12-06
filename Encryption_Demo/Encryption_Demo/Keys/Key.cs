@@ -1,4 +1,4 @@
-﻿namespace Encryption_Demo
+﻿namespace Encryption_Demo.Keys
 {
     internal abstract class Key
     {

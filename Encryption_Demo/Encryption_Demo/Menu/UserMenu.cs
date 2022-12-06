@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,12 +19,13 @@ namespace Encryption_Demo.Menu
             Console.WriteLine("Please select an option below:");
             Console.WriteLine("A: Generate keys");
             Console.WriteLine("B: Share keys");
-            Console.WriteLine("C: Write a message");
-            Console.WriteLine("D: Encrypt a message");
-            Console.WriteLine("E: Send a message");
-            Console.WriteLine("F: Intercept a message");
-            Console.WriteLine("G: Decrypt a message");
-            Console.WriteLine("H: Read messages");
+            Console.WriteLine("C: Get public key from key-hub");
+            Console.WriteLine("D: Write a message");
+            Console.WriteLine("E: Encrypt a message");
+            Console.WriteLine("F: Send a message");
+            Console.WriteLine("G: Intercept a message");
+            Console.WriteLine("H: Decrypt a message");
+            Console.WriteLine("I: Read messages");
             Console.WriteLine("Back: Go to main menu");
         }
 
@@ -36,12 +38,17 @@ namespace Encryption_Demo.Menu
                     generateKey.Run();
                     break;
 
-                case "B":
+                case "B" when Environment.CurrentUser.Keys.Count > 0:
                     ShareKeyMenu shareKey = new ShareKeyMenu(Environment);
                     shareKey.Run();
                     break;
 
                 case "C":
+                    KeyHubSelectionMenu keyHubSelection = new KeyHubSelectionMenu(Environment);
+                    keyHubSelection.Run();
+                    break;
+
+                case "D":
                     RecipientSelectionMenu recipientSelection = new RecipientSelectionMenu(Environment);
                     recipientSelection.Run();
                     if (Environment.CurrentUser.PartialMessage.RecipientsList.Count == 0)
@@ -65,26 +72,27 @@ namespace Encryption_Demo.Menu
                     Console.WriteLine("Message complete. Added to drafts");
                     break;
 
-                case "D" when Environment.CurrentUser.Keys.Count > 0:
+                case "E" when Environment.CurrentUser.Keys.Count > 0 && Environment.CurrentUser.Drafts.Count > 0:
                     EncryptMessageMenu encryptMessage = new EncryptMessageMenu(Environment);
                     encryptMessage.Run();
                     break;
 
-                case "E":
+                case "F" when Environment.CurrentUser.Drafts.Count > 0:
                     SendMessageMenu sendMessage = new SendMessageMenu(Environment);
                     sendMessage.Run();
                     break;
 
-                case "F":
-
+                case "G":
+                    InterceptMessagesMenu interceptMessage = new InterceptMessagesMenu(Environment);
+                    interceptMessage.Run();
                     break;
 
-                case "G":
+                case "H" when Environment.CurrentUser.Keys.Count > 0:
                     DecryptMessageMenu decryptMessage = new DecryptMessageMenu(Environment);
                     decryptMessage.Run();
                     break;
 
-                case "H":
+                case "I":
                     MessageFolderSelectionMenu folderSelect = new MessageFolderSelectionMenu(Environment);
                     folderSelect.Run();
                     break;
@@ -93,7 +101,14 @@ namespace Encryption_Demo.Menu
                     break;
 
                 default:
-                    Console.WriteLine("Command not recognized.");
+                    if (Environment.CurrentUser.Keys.Count > 0 && (userInput == "B" || userInput == "E" || userInput == "H"))
+                    {
+                        Console.WriteLine("You have no keys");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Command not recognized.");
+                    }
                     break;
             }
         }

@@ -10,6 +10,7 @@ internal class DemoEnvironment
     public User CurrentUser;
 
     public MessageHub MessagesHub = new MessageHub();
+    public PublicKeyHub PublicKeyHub = new PublicKeyHub();
 
     private static void Main(string[] args)
     {

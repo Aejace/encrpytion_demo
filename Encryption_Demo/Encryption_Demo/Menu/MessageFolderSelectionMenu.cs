@@ -44,23 +44,53 @@ namespace Encryption_Demo.Menu
                     break;
 
                 case "B":
-                    
+                    Console.WriteLine("");
+                    Console.WriteLine("Intercepted Messages:");
+                    foreach (Message message in Environment.CurrentUser.InterceptedMessages)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine(message.PrintMessage());
+                    }
                     break;
 
                 case "C":
-                    
+                    Console.WriteLine("");
+                    Console.WriteLine("Decrypted Messages:");
+                    foreach (Message message in Environment.CurrentUser.DecryptedInbox)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine(message.PrintMessage());
+                    }
                     break;
 
                 case "D":
-
+                    Console.WriteLine("");
+                    Console.WriteLine("Drafts:");
+                    foreach (Message message in Environment.CurrentUser.Drafts)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine(message.PrintMessage());
+                    }
                     break;
 
                 case "E":
-
+                    Console.WriteLine("");
+                    Console.WriteLine("Encrypted Drafts:");
+                    foreach (Message message in Environment.CurrentUser.EncryptedDrafts)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine(message.PrintMessage());
+                    }
                     break;
 
                 case "F":
-
+                    Console.WriteLine("");
+                    Console.WriteLine("Sent:");
+                    foreach (Message message in Environment.CurrentUser.Sent)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine(message.PrintMessage());
+                    }
                     break;
 
                 case "BACK":

@@ -59,17 +59,32 @@
                     Environment.CurrentUser = Environment.Users["P1"];
 
                     List<string> userNames = new List<string>() {"P1", "P2", "P3"};
-                    Message message = new Message("Hello", "Testing", userNames);
+                    Message message = new Message("SubjectTest", "ContentTest", userNames);
                     Environment.CurrentUser.PartialMessage = message;
                     Environment.CurrentUser.AddToDrafts();
-                    Environment.CurrentUser.CreateXORKey("P1 Private");
+
+                    Environment.CurrentUser.CreateRSAKey("P1: rsa");
+                    Environment.PublicKeyHub.addKey(Environment.CurrentUser.Keys[1]);
                     Environment.CurrentUser.SetCurrentKey(Environment.CurrentUser.Keys[0]);
                     Environment.CurrentUser.EncryptMessage(message);
                     Message encryptedMessage = Environment.CurrentUser.EncryptedDrafts[0];
-                    Environment.CurrentUser.SendMessage(message);
-                    Environment.MessagesHub.SendMessage(message);
-                    Environment.CurrentUser.SendMessage(encryptedMessage);
+                    Console.WriteLine(encryptedMessage.PrintMessage());
                     Environment.MessagesHub.SendMessage(encryptedMessage);
+                    Environment.CurrentUser.SetCurrentKey(Environment.CurrentUser.Keys[1]);
+                    Environment.CurrentUser.DecryptMessage(encryptedMessage);
+                    Message decryptedMessage = Environment.CurrentUser.DecryptedInbox[0];
+                    Console.WriteLine(decryptedMessage.PrintMessage());
+
+                    //Environment.CurrentUser.CreateXORKey("P1 Private");
+                    //Environment.CurrentUser.SetCurrentKey(Environment.CurrentUser.Keys[0]);
+                    //Environment.CurrentUser.EncryptMessage(message);
+                    //Message encryptedMessage = Environment.CurrentUser.EncryptedDrafts[0];
+                    //Environment.Users["P2"].AddKey(Environment.CurrentUser.CurrentKey);
+                    //Environment.Users["P3"].AddKey(Environment.CurrentUser.CurrentKey);
+                    //Environment.CurrentUser.SendMessage(message);
+                    //Environment.MessagesHub.SendMessage(message);
+                    //Environment.CurrentUser.SendMessage(encryptedMessage);
+                    //Environment.MessagesHub.SendMessage(encryptedMessage);
                     break;
 
                 case "BACK":

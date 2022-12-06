@@ -35,13 +35,16 @@ namespace Encryption_Demo.Menu
                     Console.WriteLine("Please enter a string modifier ");
                     string modifier = GetUserInput();
                     Environment.CurrentUser.CreateBasicKey(name, modifier);
+                    Console.WriteLine("Key added!");
                     break;
 
                 case "B":
-                    //Console.WriteLine("");
-                    //Console.WriteLine("Please enter a key name");
-                    //name = GetName();
-                    //Environment.CurrentUser.CreateRSAKey(name, );
+                    Console.WriteLine("");
+                    Console.WriteLine("Please enter a key name");
+                    name = GetName();
+                    Environment.CurrentUser.CreateRSAKey(name);
+                    Environment.PublicKeyHub.addKey(Environment.CurrentUser.Keys.Last());
+                    Console.WriteLine("Keys added!");
                     break;
 
                 case "C":

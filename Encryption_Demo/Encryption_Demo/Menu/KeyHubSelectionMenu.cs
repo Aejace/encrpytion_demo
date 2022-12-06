@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Encryption_Demo.Keys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Encryption_Demo.Menu
 {
-    internal class ShareKeyMenu : Menu
+    internal class KeyHubSelectionMenu : Menu
     {
-        private List<string> userNames;
-        private List<string> selectedUsers = new List<string>();
-        public ShareKeyMenu(DemoEnvironment environment) : base(environment)
+        private List<Key> keys;
+        private List<Key> selectedKeys = new List<Key>();
+        public KeyHubSelectionMenu(DemoEnvironment environment) : base(environment)
         {
-            this.userNames = new List<string>(Environment.Users.Keys);
+            this.keys = new List<Key>(Environment.PublicKeyHub.GetKeys());
         }
 
         public new void Run()
@@ -33,28 +34,28 @@ namespace Encryption_Demo.Menu
         protected override void PrintMenu()
         {
             Console.WriteLine("");
-            Console.WriteLine("Key recipient selection menu");
-            if (userNames.Count > 0)
+            Console.WriteLine("Key selection menu");
+            if (keys.Count > 0)
             {
                 Console.WriteLine("Please select an option below:");
 
-                for (int i = 0; i < userNames.Count; i++)
+                for (int i = 0; i < keys.Count; i++)
                 {
-                    string name = userNames[i];
+                    string name = keys[i].Name;
                     Console.WriteLine(i + ": " + name);
                 }
             }
             else
             {
-                Console.WriteLine("There are no remaining users to select!");
+                Console.WriteLine("There are no remaining keys to select!");
             }
 
-            if (selectedUsers.Count > 0)
+            if (selectedKeys.Count > 0)
             {
                 Console.Write("Accept: ");
-                foreach (string user in selectedUsers)
+                foreach (Key key in selectedKeys)
                 {
-                    Console.Write(user + ", ");
+                    Console.Write(key.Name + ", ");
                 }
                 Console.Write("\n");
             }
@@ -66,10 +67,10 @@ namespace Encryption_Demo.Menu
         {
             if (int.TryParse(userInput, out int index))
             {
-                if (index >= 0 && index < userNames.Count)
+                if (index >= 0 && index < keys.Count)
                 {
-                    selectedUsers.Add(userNames[index]);
-                    userNames.RemoveAt(index);
+                    selectedKeys.Add(keys[index]);
+                    keys.RemoveAt(index);
                 }
                 else
                 {
@@ -83,15 +84,12 @@ namespace Encryption_Demo.Menu
                     case "BACK":
                         return;
 
-                    case "ACCEPT" when selectedUsers.Count > 0:
-                        KeySelectionMenu selectKey = new KeySelectionMenu(Environment);
-                        selectKey.Run();
-                        Console.WriteLine("");
-                        Console.Write("Key distributed to: ");
-                        foreach (string user in selectedUsers)
+                    case "ACCEPT" when selectedKeys.Count > 0:
+                        Console.Write("Keys added: ");
+                        foreach (Key key in selectedKeys)
                         {
-                            Environment.Users[user].AddKey(Environment.CurrentUser.CurrentKey);
-                            Console.Write(user + ", ");
+                            Environment.CurrentUser.AddKey(key);
+                            Console.Write(key.Name + ", ");
                         }
                         Console.Write("\n");
                         break;

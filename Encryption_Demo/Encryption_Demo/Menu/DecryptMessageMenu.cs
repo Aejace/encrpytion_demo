@@ -125,12 +125,13 @@ namespace Encryption_Demo.Menu
                             catch (Exception e)
                             {
                                 Console.WriteLine("\"" + message.Subject + "\" could not be decrypted with the selected key");
+                                Console.WriteLine(e.Message);
                             } 
                         }
 
                         if (Environment.CurrentUser.DecryptedInbox.Count > numMessagesDecrypted)
                         {
-                            Console.WriteLine("Message(s) Decrypted!");
+                            Console.WriteLine("Message(s) Decrypted! Added to decrypted inbox");
                         }
                         return;
 

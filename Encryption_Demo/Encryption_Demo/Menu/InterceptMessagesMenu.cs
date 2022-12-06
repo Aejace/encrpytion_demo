@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Encryption_Demo.Keys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace Encryption_Demo.Menu
 {
-    internal class ShareKeyMenu : Menu
+    internal class InterceptMessagesMenu : Menu
     {
-        private List<string> userNames;
-        private List<string> selectedUsers = new List<string>();
-        public ShareKeyMenu(DemoEnvironment environment) : base(environment)
+        private List<Message> messages;
+        private List<Message> selectedMessages = new List<Message>();
+        public InterceptMessagesMenu(DemoEnvironment environment) : base(environment)
+
         {
-            this.userNames = new List<string>(Environment.Users.Keys);
+            this.messages = new List<Message>(Environment.MessagesHub.HackTheHub());
         }
 
         public new void Run()
@@ -33,28 +35,28 @@ namespace Encryption_Demo.Menu
         protected override void PrintMenu()
         {
             Console.WriteLine("");
-            Console.WriteLine("Key recipient selection menu");
-            if (userNames.Count > 0)
+            Console.WriteLine("Message selection menu");
+            if (messages.Count > 0)
             {
                 Console.WriteLine("Please select an option below:");
 
-                for (int i = 0; i < userNames.Count; i++)
+                for (int i = 0; i < messages.Count; i++)
                 {
-                    string name = userNames[i];
-                    Console.WriteLine(i + ": " + name);
+                    Console.WriteLine(i + ": ");
+                    messages[i].PrintMessage();
                 }
             }
             else
             {
-                Console.WriteLine("There are no remaining users to select!");
+                Console.WriteLine("There are no remaining messages to select!");
             }
 
-            if (selectedUsers.Count > 0)
+            if (selectedMessages.Count > 0)
             {
                 Console.Write("Accept: ");
-                foreach (string user in selectedUsers)
+                foreach (Message message in selectedMessages)
                 {
-                    Console.Write(user + ", ");
+                    Console.Write(message.Subject + ", ");
                 }
                 Console.Write("\n");
             }
@@ -66,10 +68,10 @@ namespace Encryption_Demo.Menu
         {
             if (int.TryParse(userInput, out int index))
             {
-                if (index >= 0 && index < userNames.Count)
+                if (index >= 0 && index < messages.Count)
                 {
-                    selectedUsers.Add(userNames[index]);
-                    userNames.RemoveAt(index);
+                    selectedMessages.Add(messages[index]);
+                    messages.RemoveAt(index);
                 }
                 else
                 {
@@ -83,15 +85,12 @@ namespace Encryption_Demo.Menu
                     case "BACK":
                         return;
 
-                    case "ACCEPT" when selectedUsers.Count > 0:
-                        KeySelectionMenu selectKey = new KeySelectionMenu(Environment);
-                        selectKey.Run();
-                        Console.WriteLine("");
-                        Console.Write("Key distributed to: ");
-                        foreach (string user in selectedUsers)
+                    case "ACCEPT" when selectedMessages.Count > 0:
+                        Console.Write("Messages added to Intercepted inbox: ");
+                        foreach (Message message in selectedMessages)
                         {
-                            Environment.Users[user].AddKey(Environment.CurrentUser.CurrentKey);
-                            Console.Write(user + ", ");
+                            Environment.CurrentUser.InterceptMessage(message);
+                            Console.Write(message.Subject + ", ");
                         }
                         Console.Write("\n");
                         break;

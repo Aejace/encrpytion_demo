@@ -1,4 +1,7 @@
-﻿namespace Encryption_Demo
+﻿using System.Security.AccessControl;
+using Encryption_Demo.Keys;
+
+namespace Encryption_Demo
 {
     internal class User
     {
@@ -28,6 +31,13 @@
         {
             SymmetricXORKey key = new SymmetricXORKey(name);
             this.Keys.Add(key);
+        }
+
+        internal void CreateRSAKey(string name)
+        {
+            RSA asymetricKeys = new RSA(name);
+            this.Keys.Add(asymetricKeys.PrivateKey);
+            this.Keys.Add(asymetricKeys.PublicKey);
         }
 
         public void SetCurrentKey(Key key)
